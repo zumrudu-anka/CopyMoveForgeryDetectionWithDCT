@@ -1,0 +1,2 @@
+# CopyMoveForgeryDetectionWithDCT
+Görüntüler Üzerinde Kopyala Yapıştır Sahteciliği Tespiti
