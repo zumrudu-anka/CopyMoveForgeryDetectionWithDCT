@@ -1,8 +1,7 @@
 ﻿  MyForm.cpp
-c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetection\copymoveforgerydetection\myform.h(257): warning C4244: 'başlatılıyor': 'float' - 'byte' dönüşümü; veri kaybı olabilir
-c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetection\copymoveforgerydetection\myform.h(338): warning C4244: '=': 'double' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetection\copymoveforgerydetection\myform.h(362): warning C4477: 'printf' : '%5d' biçim dizesi 'int' türü bir bağımsız değişken gerektirir, ancak 1 değişen sayıda bağımsız değişkenin türü 'double'
-c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetection\copymoveforgerydetection\myform.h(379): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetection\copymoveforgerydetection\myform.h(380): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
+c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(278): warning C4244: 'başlatılıyor': 'float' - 'byte' dönüşümü; veri kaybı olabilir
+c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(380): warning C4244: '=': 'double' - 'BYTE' dönüşümü; veri kaybı olabilir
+c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(441): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
+c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(442): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
   MyForm.obj : MSIL modülü ile karşılaşıldı; MSIL için artımlı bağlama devre dışı bırakıldı; tam bağlantı gerçekleştiriliyor
-  CopyMoveForgeryDetection.vcxproj -> C:\Users\pHoEniX\Desktop\NADSecurity\CopyMoveForgeryDetection\Debug\CopyMoveForgeryDetection.exe
+  CopyMoveForgeryDetection.vcxproj -> C:\Users\Furkan HÜLAGÜ\Desktop\Osman\AgVeriGuvenligi\CopyMoveForgeryDetectionWithDCT\CopyMoveForgeryDetection\Debug\CopyMoveForgeryDetection.exe

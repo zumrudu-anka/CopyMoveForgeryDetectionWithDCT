@@ -33,7 +33,7 @@ Class ThisAssembly: AutoLayout, AnsiClass, Class, Abstract, Sealed, BeforeFieldI
     System.String DefaultAlias = mscorlib.dll : Assembly, Static, Literal, HasDefault
     System.String Copyright = © Microsoft Corporation.  All rights reserved. : Assembly, Static, Literal, HasDefault
     System.String Version = 4.0.0.0 : Assembly, Static, Literal, HasDefault
-    System.String InformationalVersion = 4.7.3324.0 : Assembly, Static, Literal, HasDefault
+    System.String InformationalVersion = 4.7.3394.0 : Assembly, Static, Literal, HasDefault
     System.String DailyBuildNumberStr = 30319 : Assembly, Static, Literal, HasDefault
     System.String BuildRevisionStr = 0 : Assembly, Static, Literal, HasDefault
     Int32 DailyBuildNumber = 30319 : Assembly, Static, Literal, HasDefault
@@ -1074,6 +1074,7 @@ Class System.AppContextDefaultValues: AutoLayout, AnsiClass, Class, Abstract, Se
     System.String SwitchSetActorAsReferenceWhenCopyingClaimsIdentity : Assembly, Static, InitOnly
     System.String SwitchIgnorePortablePDBsInStackTraces : Assembly, Static, InitOnly
     System.String SwitchUseNewMaxArraySize : Assembly, Static, InitOnly
+    System.String SwitchUseNetCoreTimer : Assembly, Static, InitOnly
   Methods:
     PopulateDefaultValues(): PrivateScope, Public, Static, HideBySig
     TryGetSwitchOverride(String, Boolean&(Out)): PrivateScope, Public, Static, HideBySig
@@ -1091,6 +1092,7 @@ Class System.AppContextSwitches: AutoLayout, AnsiClass, Class, Abstract, Sealed
     Boolean DoNotAddrOfCspParentWindowHandle 'get ' : 
     Boolean IgnorePortablePDBsInStackTraces 'get ' : 
     Boolean UseNewMaxArraySize 'get ' : 
+    Boolean UseNetCoreTimer 'get ' : 
   Methods:
     get_ThrowExceptionIfDisposedCancellationTokenSource(): PrivateScope, Public, Static, HideBySig, SpecialName
     GetCachedSwitchValue(String, Int32&): PrivateScope, Assembly, Static, HideBySig
@@ -1105,6 +1107,7 @@ Class System.AppContextSwitches: AutoLayout, AnsiClass, Class, Abstract, Sealed
     get_DoNotAddrOfCspParentWindowHandle(): PrivateScope, Public, Static, HideBySig, SpecialName
     get_IgnorePortablePDBsInStackTraces(): PrivateScope, Public, Static, HideBySig, SpecialName
     get_UseNewMaxArraySize(): PrivateScope, Public, Static, HideBySig, SpecialName
+    get_UseNetCoreTimer(): PrivateScope, Public, Static, HideBySig, SpecialName
 Class System.Object: AutoLayout, AnsiClass, Class, Public, Serializable, BeforeFieldInit
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
@@ -5154,8 +5157,8 @@ Struct System.Double: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Se
     Double MinValue = -1,79769313486232E+308 : Public, Static, Literal, HasDefault
     Double MaxValue = 1,79769313486232E+308 : Public, Static, Literal, HasDefault
     Double Epsilon = 4,94065645841247E-324 : Public, Static, Literal, HasDefault
-    Double NegativeInfinity = -Sonsuz : Public, Static, Literal, HasDefault
-    Double PositiveInfinity = Sonsuz : Public, Static, Literal, HasDefault
+    Double NegativeInfinity = -∞ : Public, Static, Literal, HasDefault
+    Double PositiveInfinity = ∞ : Public, Static, Literal, HasDefault
     Double NaN = NaN : Public, Static, Literal, HasDefault
   Methods:
     IsInfinity(Double): PrivateScope, Public, Static, HideBySig
@@ -6799,8 +6802,8 @@ Struct System.Single: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Se
     Single MinValue = -3,402823E+38 : Public, Static, Literal, HasDefault
     Single Epsilon = 1,401298E-45 : Public, Static, Literal, HasDefault
     Single MaxValue = 3,402823E+38 : Public, Static, Literal, HasDefault
-    Single PositiveInfinity = Sonsuz : Public, Static, Literal, HasDefault
-    Single NegativeInfinity = -Sonsuz : Public, Static, Literal, HasDefault
+    Single PositiveInfinity = ∞ : Public, Static, Literal, HasDefault
+    Single NegativeInfinity = -∞ : Public, Static, Literal, HasDefault
     Single NaN = NaN : Public, Static, Literal, HasDefault
   Methods:
     IsInfinity(Single): PrivateScope, Public, Static, HideBySig
@@ -16542,5 +16545,4 @@ Struct System.Globalization.CalendarAlgorithmType: AutoLayout, AnsiClass, Class,
     Int32 value__ : Public, SpecialName, RTSpecialName
     System.Globalization.CalendarAlgorithmType Unknown = 0 : Public, Static, Literal, HasDefault
     System.Globalization.CalendarAlgorithmType SolarCalendar = 1 : Public, Static, Literal, HasDefault
-    System.Globalization.CalendarAlgorithmType LunarCalendar = 2 : Public, Static, Literal, HasDefault
-    System.Globalization.CalendarAlgorithmType LunisolarCalendar = 3 :
+    

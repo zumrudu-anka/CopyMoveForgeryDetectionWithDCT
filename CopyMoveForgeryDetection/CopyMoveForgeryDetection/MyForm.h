@@ -48,7 +48,7 @@ namespace CopyMoveForgeryDetection {
 		Bitmap ^main_image; 
 		BYTE *raw_intensity, *quantization_table;
 		int width_m_image,height_m_image;
-		double *Fuv;
+		double *Fuv, *DCT_array_with_threshold;
 	private: System::Windows::Forms::PictureBox^  pictureBox2;
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  operationsToolStripMenuItem;
@@ -58,7 +58,8 @@ namespace CopyMoveForgeryDetection {
 	private: System::Windows::Forms::ToolStripMenuItem^  dCTToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  quantizationToolStripMenuItem;
 	private: System::Windows::Forms::ProgressBar^  progressBar1;
-
+	private: System::Windows::Forms::RichTextBox^  richTextBox1;
+	private: System::Windows::Forms::RichTextBox^  richTextBox2;
 
 
 
@@ -87,6 +88,8 @@ namespace CopyMoveForgeryDetection {
 			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
 			this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
+			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->richTextBox2 = (gcnew System::Windows::Forms::RichTextBox());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
@@ -189,7 +192,7 @@ namespace CopyMoveForgeryDetection {
 			// 
 			this->comboBox1->FormattingEnabled = true;
 			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"8 x 8", L"16 x 16" });
-			this->comboBox1->Location = System::Drawing::Point(404, 333);
+			this->comboBox1->Location = System::Drawing::Point(549, 312);
 			this->comboBox1->Name = L"comboBox1";
 			this->comboBox1->Size = System::Drawing::Size(121, 21);
 			this->comboBox1->TabIndex = 3;
@@ -207,11 +210,29 @@ namespace CopyMoveForgeryDetection {
 			this->progressBar1->TabIndex = 4;
 			this->progressBar1->Visible = false;
 			// 
+			// richTextBox1
+			// 
+			this->richTextBox1->Location = System::Drawing::Point(12, 312);
+			this->richTextBox1->Name = L"richTextBox1";
+			this->richTextBox1->Size = System::Drawing::Size(212, 96);
+			this->richTextBox1->TabIndex = 5;
+			this->richTextBox1->Text = L"";
+			// 
+			// richTextBox2
+			// 
+			this->richTextBox2->Location = System::Drawing::Point(230, 312);
+			this->richTextBox2->Name = L"richTextBox2";
+			this->richTextBox2->Size = System::Drawing::Size(207, 96);
+			this->richTextBox2->TabIndex = 6;
+			this->richTextBox2->Text = L"";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(698, 416);
+			this->Controls->Add(this->richTextBox2);
+			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(this->comboBox1);
 			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->pictureBox2);
@@ -254,7 +275,7 @@ private: System::Void openToolStripMenuItem_Click(System::Object^  sender, Syste
 
 		for (int i = 0; i < height_m_image; i++) {
 			for (int j = 0; j < width_m_image; j++) {
-				byte raw = main_image->GetPixel(j, i).R * 0.299f+main_image->GetPixel(j,i).G*0.587f+main_image->GetPixel(j,i).B*0.114f;
+				byte raw = main_image->GetPixel(j, i).R * 0.299f+main_image->GetPixel(j,i).G * 0.587f+main_image->GetPixel(j,i).B * 0.114f;
 				raw_intensity[i*width_m_image+j]=raw;
 			}
 		}
@@ -284,17 +305,22 @@ private: System::Void showIntensityToolStripMenuItem_Click(System::Object^  send
 private: System::Void exitToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	MyForm::Close();
 }
-
 	
 private: System::Void dCTToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	
-	Fuv = new double[(height_m_image - 7) * (width_m_image - 7) * 64];
+	//Fuv = new double[(height_m_image - 7) * (width_m_image - 7) * 64];
+	
+
+	DCT_array_with_threshold=new double[(height_m_image - 7) * (width_m_image - 7) * 16];
+	Fuv = new double[64];
+	quantization_table = new BYTE[64];
+	SetQuantizationTable(8, 8);
+	
 	progressBar1->Visible = true;
 	progressBar1->Maximum = (height_m_image - 7) * (width_m_image - 7);
-
+	int calculated_dctblock_count = 0;
 	for (int i = 0; i < height_m_image - 7; i++) {
 		for (int j = 0; j < width_m_image - 7; j++) {
-
 			for (int u = 0; u < 8; u++) {
 				for (int v = 0; v < 8; v++) {
 					double cu = u == 0 ? 1 / double(sqrt(2)) : 1;
@@ -309,12 +335,28 @@ private: System::Void dCTToolStripMenuItem_Click(System::Object^  sender, System
 						}
 						countk++;
 					}
-					Fuv[(i*width_m_image - 7) + (64 * j) + (u * 8) + v] = cu * cv * sum / 4;
+					//Hesaplanan Tum DCT blocklarini bellekte tutmak istersek(64 hucreyi de) bu sekilde yapabiliriz...
+					//Fuv[(i * (width_m_image - 7) * 64) + (64 * j) + (u * 8) + v] = cu * cv * sum / 4;
+					Fuv[u * 8 + v] = cu * cv * sum / 4;
 				}
 			}
+			if (calculated_dctblock_count < 100) {
+				for (int ttt = 0; ttt < 64; ttt++) {
+					richTextBox1->Text += Fuv[ttt] + "\n";
+				}
+				double *newFuv = new double[64]; 
+				newFuv = MakeQuantization(Fuv, 64);
+				for (int ttt = 0; ttt < 64; ttt++) {
+					richTextBox2->Text += newFuv[ttt] + "\n";
+				}
+			}
+
+			diagonalOrder(Fuv, 8, 8, 16 , calculated_dctblock_count);
+			calculated_dctblock_count++;
 			progressBar1->Increment(1);
 		}
 	}
+	delete Fuv;
 	progressBar1->Visible = false;
 
 }
@@ -343,10 +385,12 @@ private: void SetQuantizationTable(byte size, byte mainsize) {
 	}
 }
 
-private:void diagonalOrder(double *DCTBlock, byte block_row, byte block_column, byte save_size)
+private:void diagonalOrder(double *DCTBlock, byte block_row, byte block_column, byte save_size, int calc_block_count)
 {
-	// There will be ROW+COL-1 lines in the output 
-	for (int line = 1; line <= (block_row + block_column - 1); line++)
+	// There will be ROW+COL-1 lines in the output
+	byte saving_cell_count = 0;
+
+	for (int line = 1; line < block_row + block_column ; line++)
 	{
 		/* Get column index of the first element in this line of output.
 		The index is 0 for first ROW lines and line - ROW for remaining
@@ -358,12 +402,30 @@ private:void diagonalOrder(double *DCTBlock, byte block_row, byte block_column, 
 		int count = min(min(line, (block_column - start_col)), block_row);
 
 		/* Print elements of this line */
-		for (int j = 0; j < count; j++)
-			printf("%5d ", DCTBlock[(min(block_row, line) - j - 1) * block_column + (start_col + j)]);
-
-		/* Ptint elements of next diagonal on next line */
-		printf("\n");
+		for (int j = 0; j < count; j++) {
+			DCT_array_with_threshold[calc_block_count * (save_size) + saving_cell_count] = DCTBlock[(min(block_row, line) - j - 1) * block_column + (start_col + j)];
+			saving_cell_count++;
+		}
+		if (saving_cell_count == save_size) {
+			break;
+		}
 	}
+	
+}
+
+private: double *MakeQuantization(double *calculated_dct_block,int size_of_dctblock) {
+	
+	double *tempblock=new double[size_of_dctblock];
+	for (int i = 0; i < size_of_dctblock; i++) {
+		tempblock[i]=calculated_dct_block[i];
+	}
+	for (int i = 0; i < size_of_dctblock; i++) {
+		tempblock[i] /= quantization_table[i];
+		int a = int(tempblock[i]);
+		tempblock[i] = fabs(tempblock[i] - a) > fabs(a + 1 - tempblock[i]) ? (a + 1) : a;
+	}
+	return tempblock;
+
 }
 
 private: void CalculateCbaCra() {
