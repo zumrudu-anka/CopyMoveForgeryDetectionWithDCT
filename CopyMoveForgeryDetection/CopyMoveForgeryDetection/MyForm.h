@@ -53,13 +53,16 @@ namespace CopyMoveForgeryDetection {
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  operationsToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  showIntensityToolStripMenuItem;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown1;
-	private: System::Windows::Forms::ComboBox^  comboBox1;
+	private: System::Windows::Forms::NumericUpDown^  BetweenBlocktoCompareNumeric;
+
+
 	private: System::Windows::Forms::ToolStripMenuItem^  dCTToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  quantizationToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  DetectForgeryToolStripMenuItem;
+
 	private: System::Windows::Forms::ProgressBar^  progressBar1;
-	private: System::Windows::Forms::RichTextBox^  richTextBox1;
-	private: System::Windows::Forms::RichTextBox^  richTextBox2;
+	private: System::Windows::Forms::Label^  label1;
+
+
 
 
 
@@ -81,19 +84,17 @@ namespace CopyMoveForgeryDetection {
 			this->operationsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->showIntensityToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->dCTToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->quantizationToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->DetectForgeryToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->DosyaSecDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
-			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->BetweenBlocktoCompareNumeric = (gcnew System::Windows::Forms::NumericUpDown());
 			this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
-			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
-			this->richTextBox2 = (gcnew System::Windows::Forms::RichTextBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->BetweenBlocktoCompareNumeric))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// menuStrip1
@@ -136,7 +137,7 @@ namespace CopyMoveForgeryDetection {
 			// 
 			this->operationsToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 				this->showIntensityToolStripMenuItem,
-					this->dCTToolStripMenuItem, this->quantizationToolStripMenuItem
+					this->dCTToolStripMenuItem, this->DetectForgeryToolStripMenuItem
 			});
 			this->operationsToolStripMenuItem->Name = L"operationsToolStripMenuItem";
 			this->operationsToolStripMenuItem->Size = System::Drawing::Size(77, 20);
@@ -145,23 +146,23 @@ namespace CopyMoveForgeryDetection {
 			// showIntensityToolStripMenuItem
 			// 
 			this->showIntensityToolStripMenuItem->Name = L"showIntensityToolStripMenuItem";
-			this->showIntensityToolStripMenuItem->Size = System::Drawing::Size(151, 22);
+			this->showIntensityToolStripMenuItem->Size = System::Drawing::Size(186, 22);
 			this->showIntensityToolStripMenuItem->Text = L"Show Intensity";
 			this->showIntensityToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::showIntensityToolStripMenuItem_Click);
 			// 
 			// dCTToolStripMenuItem
 			// 
 			this->dCTToolStripMenuItem->Name = L"dCTToolStripMenuItem";
-			this->dCTToolStripMenuItem->Size = System::Drawing::Size(151, 22);
+			this->dCTToolStripMenuItem->Size = System::Drawing::Size(186, 22);
 			this->dCTToolStripMenuItem->Text = L"DCT";
 			this->dCTToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::dCTToolStripMenuItem_Click);
 			// 
-			// quantizationToolStripMenuItem
+			// DetectForgeryToolStripMenuItem
 			// 
-			this->quantizationToolStripMenuItem->Name = L"quantizationToolStripMenuItem";
-			this->quantizationToolStripMenuItem->Size = System::Drawing::Size(151, 22);
-			this->quantizationToolStripMenuItem->Text = L"Quantization";
-			this->quantizationToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::quantizationToolStripMenuItem_Click);
+			this->DetectForgeryToolStripMenuItem->Name = L"DetectForgeryToolStripMenuItem";
+			this->DetectForgeryToolStripMenuItem->Size = System::Drawing::Size(186, 22);
+			this->DetectForgeryToolStripMenuItem->Text = L"Try To Detect Forgery";
+			this->DetectForgeryToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::DetectForgeryToolStripMenuItem_Click);
 			// 
 			// pictureBox1
 			// 
@@ -179,23 +180,15 @@ namespace CopyMoveForgeryDetection {
 			this->pictureBox2->TabIndex = 2;
 			this->pictureBox2->TabStop = false;
 			// 
-			// numericUpDown1
+			// BetweenBlocktoCompareNumeric
 			// 
-			this->numericUpDown1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(162)));
-			this->numericUpDown1->Location = System::Drawing::Point(631, 384);
-			this->numericUpDown1->Name = L"numericUpDown1";
-			this->numericUpDown1->Size = System::Drawing::Size(39, 24);
-			this->numericUpDown1->TabIndex = 0;
-			// 
-			// comboBox1
-			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"8 x 8", L"16 x 16" });
-			this->comboBox1->Location = System::Drawing::Point(549, 312);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(121, 21);
-			this->comboBox1->TabIndex = 3;
+			this->BetweenBlocktoCompareNumeric->Font = (gcnew System::Drawing::Font(L"Monotype Corsiva", 12, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(162)));
+			this->BetweenBlocktoCompareNumeric->Location = System::Drawing::Point(632, 439);
+			this->BetweenBlocktoCompareNumeric->Name = L"BetweenBlocktoCompareNumeric";
+			this->BetweenBlocktoCompareNumeric->Size = System::Drawing::Size(39, 25);
+			this->BetweenBlocktoCompareNumeric->TabIndex = 0;
+			this->BetweenBlocktoCompareNumeric->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// progressBar1
 			// 
@@ -210,31 +203,24 @@ namespace CopyMoveForgeryDetection {
 			this->progressBar1->TabIndex = 4;
 			this->progressBar1->Visible = false;
 			// 
-			// richTextBox1
+			// label1
 			// 
-			this->richTextBox1->Location = System::Drawing::Point(12, 312);
-			this->richTextBox1->Name = L"richTextBox1";
-			this->richTextBox1->Size = System::Drawing::Size(212, 96);
-			this->richTextBox1->TabIndex = 5;
-			this->richTextBox1->Text = L"";
-			// 
-			// richTextBox2
-			// 
-			this->richTextBox2->Location = System::Drawing::Point(230, 312);
-			this->richTextBox2->Name = L"richTextBox2";
-			this->richTextBox2->Size = System::Drawing::Size(207, 96);
-			this->richTextBox2->TabIndex = 6;
-			this->richTextBox2->Text = L"";
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Monotype Corsiva", 12, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(162)));
+			this->label1->Location = System::Drawing::Point(262, 442);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(364, 18);
+			this->label1->TabIndex = 5;
+			this->label1->Text = L"Threshold Value Which Between Blocks to Compare: ";
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(698, 416);
-			this->Controls->Add(this->richTextBox2);
-			this->Controls->Add(this->richTextBox1);
-			this->Controls->Add(this->comboBox1);
-			this->Controls->Add(this->numericUpDown1);
+			this->ClientSize = System::Drawing::Size(698, 475);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->BetweenBlocktoCompareNumeric);
 			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->menuStrip1);
@@ -246,7 +232,7 @@ namespace CopyMoveForgeryDetection {
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->BetweenBlocktoCompareNumeric))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -330,7 +316,7 @@ private: System::Void dCTToolStripMenuItem_Click(System::Object^  sender, System
 					for (int k = i; k < i + 8; k++) {
 						byte countt = 0;
 						for (int t = j; t < j + 8; t++) {
-							sum += raw_intensity[k * width_m_image + t] * (cos(2 * countk + 1) * u * Math::PI / 16) * (cos(2 * countt + 1) * v * Math::PI / 16);
+							sum += raw_intensity[k * width_m_image + t] * (cos((2 * countk + 1) * u * Math::PI / 16)) * (cos((2 * countt + 1) * v * Math::PI / 16));
 							countt++;
 						}
 						countk++;
@@ -340,16 +326,12 @@ private: System::Void dCTToolStripMenuItem_Click(System::Object^  sender, System
 					Fuv[u * 8 + v] = cu * cv * sum / 4;
 				}
 			}
-			if (calculated_dctblock_count < 100) {
-				for (int ttt = 0; ttt < 64; ttt++) {
-					richTextBox1->Text += Fuv[ttt] + "\n";
-				}
-				double *newFuv = new double[64]; 
-				newFuv = MakeQuantization(Fuv, 64);
-				for (int ttt = 0; ttt < 64; ttt++) {
-					richTextBox2->Text += newFuv[ttt] + "\n";
-				}
-			}
+			
+			MakeQuantization(64);
+				
+			/*for (int ttt = 0; ttt < 64; ttt++) {
+				richTextBox2->Text += Fuv[ttt] + "\n";
+			}*/
 
 			diagonalOrder(Fuv, 8, 8, 16 , calculated_dctblock_count);
 			calculated_dctblock_count++;
@@ -361,17 +343,59 @@ private: System::Void dCTToolStripMenuItem_Click(System::Object^  sender, System
 
 }
 
-private: System::Void quantizationToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void DetectForgeryToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	
+	int Distance_blocks_to_compare = int(BetweenBlocktoCompareNumeric->Value);
+	int thresholded_array_size = (width_m_image - 7) * (height_m_image - 7) * 16;
+	int count_of_similar_blocks = 0;
+	
+	for (int i = 0; i < thresholded_array_size - 1; i += 16) {
+		for (int j = i + 16; j < thresholded_array_size; j += 16) {
+			/////////////////
+			if (sqrt(pow((i / 16), 2) + pow((j / 16), 2)) >= Distance_blocks_to_compare) {
+				double shiftvectordistance = 0;
+				for (int k = 0; k < 16; k++) {
+					shiftvectordistance += pow((DCT_array_with_threshold[i + k] - DCT_array_with_threshold[j + k]), 2);
+				}
+				shiftvectordistance = sqrt(shiftvectordistance);
+				if (shiftvectordistance < 1) {
+					count_of_similar_blocks++;
+					double shift_vector_distance2 = 0;
+					byte right_count=1,down_count=1,cross_count=1;
+					while (shift_vector_distance2 < 1) {
+						shift_vector_distance2 = 0;
+						for (int k = 0; k < 16; k++) {
+							shift_vector_distance2 += pow((DCT_array_with_threshold[i + (right_count * 16) + k] - DCT_array_with_threshold[j + (16 * right_count) + k]), 2);
+						}
+						shift_vector_distance2 = sqrt(shift_vector_distance2);
+						right_count++;
+					}
+					shift_vector_distance2 = 0;
+					while (shift_vector_distance2 < 1) {
+						shift_vector_distance2 = 0;
+						for (int k = 0; k < 16; k++) {
+							shift_vector_distance2 += pow((DCT_array_with_threshold[i + (down_count * (width_m_image - 7) * 16) + k] - DCT_array_with_threshold[j + (down_count * (width_m_image - 7) * 16) + k]), 2);
+						}
+						shift_vector_distance2 = sqrt(shift_vector_distance2);
+						down_count++;
+					}
+					while (shift_vector_distance2 < 1) {
+						shift_vector_distance2 = 0;
+						for (int k = 0; k < 16; k++) {
+							shift_vector_distance2 += pow((DCT_array_with_threshold[i + (cross_count * (width_m_image - 7) * 16) + (cross_count * 16) + k] - DCT_array_with_threshold[j + (cross_count * (width_m_image - 7) * 16) + (cross_count * 16) + k]), 2);
+						}
+						shift_vector_distance2 = sqrt(shift_vector_distance2);
+						cross_count++;
+					}
+					if ((right_count + cross_count + down_count) > 15) {
 
-	quantization_table = new BYTE[64];
-	SetQuantizationTable(8, 8);
-	for (int i = 0; i < (height_m_image - 7) * (width_m_image - 7); i++) {
-		for (int j = 0; j < 64; j++) {
-			Fuv[i * 64 + j] /= quantization_table[j];
-			int a = int(Fuv[i * 64 + j]);
-			Fuv[i * 64 + j] = fabs(Fuv[i * 64 + j] - a) > fabs(a + 1 - Fuv[i * 64 + j]) ? (a + 1) : a;
+					}
+
+				}
+			}
 		}
 	}
+	
 }
 
 private: void SetQuantizationTable(byte size, byte mainsize) {
@@ -410,22 +434,15 @@ private:void diagonalOrder(double *DCTBlock, byte block_row, byte block_column, 
 			break;
 		}
 	}
-	
 }
 
-private: double *MakeQuantization(double *calculated_dct_block,int size_of_dctblock) {
+private: void MakeQuantization(int size_of_dctblock) {
 	
-	double *tempblock=new double[size_of_dctblock];
 	for (int i = 0; i < size_of_dctblock; i++) {
-		tempblock[i]=calculated_dct_block[i];
+		Fuv[i] /= quantization_table[i];
+		int a = int(Fuv[i]);
+		Fuv[i] = fabs(Fuv[i] - a) > fabs(a + 1 - Fuv[i]) ? (a + 1) : a;
 	}
-	for (int i = 0; i < size_of_dctblock; i++) {
-		tempblock[i] /= quantization_table[i];
-		int a = int(tempblock[i]);
-		tempblock[i] = fabs(tempblock[i] - a) > fabs(a + 1 - tempblock[i]) ? (a + 1) : a;
-	}
-	return tempblock;
-
 }
 
 private: void CalculateCbaCra() {
