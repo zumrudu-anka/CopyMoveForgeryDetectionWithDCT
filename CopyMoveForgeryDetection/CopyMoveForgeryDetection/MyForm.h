@@ -42,10 +42,9 @@ namespace CopyMoveForgeryDetection {
 	private: System::Windows::Forms::ToolStripMenuItem^  openToolStripMenuItem;
 	private: System::Windows::Forms::OpenFileDialog^  DosyaSecDialog;
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
-
 	private:
 		/// <summary>
-		Bitmap ^main_image; 
+		Bitmap ^main_image, ^resultimage; 
 		BYTE *raw_intensity, *quantization_table;
 		int width_m_image,height_m_image;
 		double *Fuv, *DCT_array_with_threshold;
@@ -54,18 +53,10 @@ namespace CopyMoveForgeryDetection {
 	private: System::Windows::Forms::ToolStripMenuItem^  operationsToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  showIntensityToolStripMenuItem;
 	private: System::Windows::Forms::NumericUpDown^  BetweenBlocktoCompareNumeric;
-
-
 	private: System::Windows::Forms::ToolStripMenuItem^  dCTToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  DetectForgeryToolStripMenuItem;
-
 	private: System::Windows::Forms::ProgressBar^  progressBar1;
 	private: System::Windows::Forms::Label^  label1;
-
-
-
-
-
 		///Gerekli tasarýmcý deðiþkeni.
 		/// </summary>
 		System::ComponentModel::Container ^components;
@@ -296,8 +287,7 @@ private: System::Void dCTToolStripMenuItem_Click(System::Object^  sender, System
 	
 	//Fuv = new double[(height_m_image - 7) * (width_m_image - 7) * 64];
 	
-
-	DCT_array_with_threshold=new double[(height_m_image - 7) * (width_m_image - 7) * 16];
+	DCT_array_with_threshold = new double[(height_m_image - 7) * (width_m_image - 7) * 16];
 	Fuv = new double[64];
 	quantization_table = new BYTE[64];
 	SetQuantizationTable(8, 8);
@@ -345,14 +335,22 @@ private: System::Void dCTToolStripMenuItem_Click(System::Object^  sender, System
 
 private: System::Void DetectForgeryToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	
-	int Distance_blocks_to_compare = int(BetweenBlocktoCompareNumeric->Value);
+	resultimage = gcnew Bitmap(width_m_image,height_m_image);
+	for (int i = 0; i < height_m_image; i++) {
+		for (int j = 0; j < width_m_image; j++) {
+			resultimage->SetPixel(j, i, Color::Black);
+		}
+	}
+	int MinDistance_blocks_to_compare = int(BetweenBlocktoCompareNumeric->Value);
 	int thresholded_array_size = (width_m_image - 7) * (height_m_image - 7) * 16;
-	int count_of_similar_blocks = 0;
-	
+	int countofsimilarity;
+
 	for (int i = 0; i < thresholded_array_size - 1; i += 16) {
+		int count_of_similar_blocks = 0;
+		bool similar_right = true, similar_down = true, similar_cross = true;
 		for (int j = i + 16; j < thresholded_array_size; j += 16) {
 			/////////////////
-			if (sqrt(pow((i / 16), 2) + pow((j / 16), 2)) >= Distance_blocks_to_compare) {
+			if (sqrt(pow((i / 16), 2) + pow((j / 16), 2)) >= MinDistance_blocks_to_compare) {
 				double shiftvectordistance = 0;
 				for (int k = 0; k < 16; k++) {
 					shiftvectordistance += pow((DCT_array_with_threshold[i + k] - DCT_array_with_threshold[j + k]), 2);
@@ -360,9 +358,111 @@ private: System::Void DetectForgeryToolStripMenuItem_Click(System::Object^  send
 				shiftvectordistance = sqrt(shiftvectordistance);
 				if (shiftvectordistance < 1) {
 					count_of_similar_blocks++;
-					double shift_vector_distance2 = 0;
+					double shift_vector_distance2;
+					int *pixels = new int[15 * 2];
+					pixels[0] = i / 16;
+					pixels[1] = j / 16;
+					int pixelcount = 2;
+					int firstpoint = i + 16, secondpoint = j + 16, loopcount = 0;
+					do
+					{
+						for (int k = firstpoint; k < firstpoint + 16 * 5; k += 16) {
+							for (int t = secondpoint; t < secondpoint + 16 * 5; t += 16) {
+								shift_vector_distance2 = 0;
+								for (int p = 0; p < 16; p++) {
+									shift_vector_distance2 += pow((DCT_array_with_threshold[k + p] - DCT_array_with_threshold[t + p]), 2);
+								}
+								shift_vector_distance2 = sqrt(shift_vector_distance2);
+								if (shift_vector_distance2 < 1) {
+									pixels[pixelcount] = k / 16;
+									pixels[pixelcount + 1] = t / 16;
+									pixelcount += 2;
+									count_of_similar_blocks++;
+								}
+								k += 16;
+							}
+						}
+						loopcount++;
+						firstpoint = i + (width_m_image - 7) * 16 * loopcount;
+						secondpoint = j + (width_m_image - 7) * 16 * loopcount;
+					} while (loopcount<5);
+
+					//Eger Buldugumuz Benzer Block sayisi belirledigimiz esik sayidan daha fazlaysa copy ihtimali vardir diyerek bolgeyi beyaza boyayalim...
+					if (count_of_similar_blocks > 15) {
+						for (int rrr = 0; rrr < 30; rrr++) {
+							resultimage->SetPixel(pixels[rrr] % (width_m_image - 7), pixels[rrr] / (width_m_image - 7) + 1, Color::White);
+						}
+					}
+
+
+
+
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					/*
 					byte right_count=1,down_count=1,cross_count=1;
-					while (shift_vector_distance2 < 1) {
+					//Saga dogru benzerlikler
+					do
+					{
+						shift_vector_distance2 = 0;
+						for (int k = 0; k < 16; k++) {
+							shift_vector_distance2 += pow((DCT_array_with_threshold[i + (right_count * 16) + k] - DCT_array_with_threshold[j + (16 * right_count) + k]), 2);
+						}
+						shift_vector_distance2 = sqrt(shift_vector_distance2);
+						if (shift_vector_distance2 < 1) {
+							right_count++;
+						}
+						else {
+							similar_right = false;
+						}
+					} while (similar_right);
+					//Asagi dogru benzerlikler
+					do
+					{
+						shift_vector_distance2 = 0;
+						for (int k = 0; k < 16; k++) {
+							shift_vector_distance2 += pow((DCT_array_with_threshold[i + (down_count * (width_m_image - 7) * 16) + k] - DCT_array_with_threshold[j + (down_count * (width_m_image - 7) * 16) + k]), 2);
+						}
+						shift_vector_distance2 = sqrt(shift_vector_distance2);
+						if (shift_vector_distance2 < 1) {
+							down_count++;
+						}
+						else {
+							similar_down = false;
+						}
+					} while (similar_down);
+					//Carpraz benzerlikler
+					do
+					{
+						shift_vector_distance2 = 0;
+						for (int k = 0; k < 16; k++) {
+							shift_vector_distance2 += pow((DCT_array_with_threshold[i + (cross_count * (width_m_image - 7) * 16) + (cross_count * 16) + k] - DCT_array_with_threshold[j + (cross_count * (width_m_image - 7) * 16) + (cross_count * 16) + k]), 2);
+						}
+						shift_vector_distance2 = sqrt(shift_vector_distance2);
+						if (shift_vector_distance2 < 1) {
+							cross_count++;
+						}
+						else {
+							similar_cross = false;
+						}
+					} while (similar_cross);
+
+					countofsimilarity = cross_count + right_count + down_count;
+
+					*/
+
+
+
+
+					/*while (shift_vector_distance2 < 1) {
 						shift_vector_distance2 = 0;
 						for (int k = 0; k < 16; k++) {
 							shift_vector_distance2 += pow((DCT_array_with_threshold[i + (right_count * 16) + k] - DCT_array_with_threshold[j + (16 * right_count) + k]), 2);
@@ -389,7 +489,7 @@ private: System::Void DetectForgeryToolStripMenuItem_Click(System::Object^  send
 					}
 					if ((right_count + cross_count + down_count) > 15) {
 
-					}
+					}*/
 
 				}
 			}

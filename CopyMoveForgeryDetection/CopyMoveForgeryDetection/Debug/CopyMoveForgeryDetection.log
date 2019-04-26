@@ -1,7 +1,9 @@
 ﻿  MyForm.cpp
-c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(278): warning C4244: 'başlatılıyor': 'float' - 'byte' dönüşümü; veri kaybı olabilir
-c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(379): warning C4244: '=': 'double' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(437): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\furkan hülagü\desktop\osman\agveriguvenligi\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(438): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
+c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(255): warning C4244: 'başlatılıyor': 'float' - 'byte' dönüşümü; veri kaybı olabilir
+c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(346): warning C4101: 'countofsimilarity': yerel değişken başvurusu kaldırıldı
+c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(504): warning C4244: '=': 'double' - 'BYTE' dönüşümü; veri kaybı olabilir
+c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(558): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
+c:\users\phoenix\desktop\nadsecurity\copymoveforgerydetectionwithdct\copymoveforgerydetection\copymoveforgerydetection\myform.h(559): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
+  .NETFramework,Version=v4.6.1.AssemblyAttributes.cpp
   MyForm.obj : MSIL modülü ile karşılaşıldı; MSIL için artımlı bağlama devre dışı bırakıldı; tam bağlantı gerçekleştiriliyor
-  CopyMoveForgeryDetection.vcxproj -> C:\Users\Furkan HÜLAGÜ\Desktop\Osman\AgVeriGuvenligi\CopyMoveForgeryDetectionWithDCT\CopyMoveForgeryDetection\Debug\CopyMoveForgeryDetection.exe
+  CopyMoveForgeryDetection.vcxproj -> C:\Users\pHoEniX\Desktop\NADSecurity\CopyMoveForgeryDetectionWithDCT\CopyMoveForgeryDetection\Debug\CopyMoveForgeryDetection.exe
