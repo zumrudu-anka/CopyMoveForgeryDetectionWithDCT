@@ -1,0 +1,10 @@
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\bin\Debug\CopyMoveForgeryDetection.exe.config
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\bin\Debug\CopyMoveForgeryDetection.exe
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\bin\Debug\CopyMoveForgeryDetection.pdb
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\obj\Debug\CopyMoveForgeryDetection.csprojAssemblyReference.cache
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\obj\Debug\CopyMoveForgeryDetection.Form1.resources
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\obj\Debug\CopyMoveForgeryDetection.Properties.Resources.resources
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\obj\Debug\CopyMoveForgeryDetection.csproj.GenerateResource.cache
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\obj\Debug\CopyMoveForgeryDetection.csproj.CoreCompileInputs.cache
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\obj\Debug\CopyMoveForgeryDetection.exe
+C:\Users\pHoEniX\source\repos\CopyMoveForgeryDetection\CopyMoveForgeryDetection\obj\Debug\CopyMoveForgeryDetection.pdb
