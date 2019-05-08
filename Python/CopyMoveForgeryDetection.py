@@ -10,7 +10,7 @@ from MyFunctions import *
 
 def OpenShowImage():
 	global img,firstimage,first_image_label
-	filename=filedialog.askopenfilename(initialdir = "Forged Images/",title = "Open file",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
+	filename=filedialog.askopenfilename(initialdir = "../Forged Images/",title = "Open file",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
 	firstimage=PhotoImage(file='{}'.format(filename))
 	first_image_label=Label(leftframe,image=firstimage)
 	first_image_label.pack()
@@ -96,10 +96,12 @@ def TryToDetectForgery():
 
 	for i in range(4,len(hough_space),5):
 		if(hough_space.count(hough_space[i]) > min_count_for_similar_shift_vectors):
-			img2[hough_space[i-4],hough_space[i-3],0]=255
-			img2[hough_space[i-2],hough_space[i-1],0]=255
+			for j in range(0,8):
+				for k in range(0,8):
+					img2[hough_space[i-4]+j,hough_space[i-3]+k,0]=255
+					img2[hough_space[i-2]+j,hough_space[i-1]+k,0]=255
 
-	filename = filedialog.asksaveasfilename(initialdir = "Forged Images/",title = "Save File",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
+	filename = filedialog.asksaveasfilename(initialdir = "../Forged Images/",title = "Save File",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
 	cv2.imwrite('{}'.format(filename),img2)
 	result_image=PhotoImage(file='{}'.format(filename))
 	result_image_label=Label(rightframe,image=result_image)
@@ -174,7 +176,7 @@ threshold_distance_for_similar_blocks_spin.pack(anchor=CENTER)
 min_count_for_similar_shift_vectors_label = Label(middleframe,text="Minimum Count for Similar Shift Vectors")
 min_count_for_similar_shift_vectors_label.pack()
 
-min_count_for_similar_shift_vectors_spin = Spinbox(middleframe, from_=10, to=100,width=5,command=GetMinCountForSimilarShiftVectors)
+min_count_for_similar_shift_vectors_spin = Spinbox(middleframe, from_=25, to=1000,width=5,command=GetMinCountForSimilarShiftVectors)
 min_count_for_similar_shift_vectors_spin.pack(anchor=CENTER)
 
 
