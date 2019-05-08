@@ -5,14 +5,16 @@ from operator import itemgetter
 import math
 from tkinter import *
 from tkinter import messagebox
+from tkinter import filedialog
 from MyFunctions import *
 
 def OpenShowImage():
 	global img,firstimage,first_image_label
-	firstimage=PhotoImage(file='Forged Images/forged1.png')
+	filename=filedialog.askopenfilename(initialdir = "Forged Images/",title = "Open file",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
+	firstimage=PhotoImage(file='{}'.format(filename))
 	first_image_label=Label(leftframe,image=firstimage)
 	first_image_label.pack()
-	img=cv2.imread('Forged Images/forged1.png',0)
+	img=cv2.imread('{}'.format(filename),0)
 
 def GetQuantizationMatrix(size,mainsize):
 	for i in range (0,size):
@@ -97,8 +99,9 @@ def TryToDetectForgery():
 			img2[hough_space[i-4],hough_space[i-3],0]=255
 			img2[hough_space[i-2],hough_space[i-1],0]=255
 
-	cv2.imwrite('resultimage.png',img2)
-	result_image=PhotoImage(file='resultimage.png')
+	filename = filedialog.asksaveasfilename(initialdir = "Forged Images/",title = "Save File",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
+	cv2.imwrite('{}'.format(filename),img2)
+	result_image=PhotoImage(file='{}'.format(filename))
 	result_image_label=Label(rightframe,image=result_image)
 	result_image_label.pack()
 
@@ -120,7 +123,8 @@ def GetMinCountForSimilarShiftVectors():
 	min_count_for_similar_shift_vectors=int(min_count_for_similar_shift_vectors_spin.get())
 
 root=Tk()
-root.geometry("800x300")
+root.geometry("800x325")
+root.title("Copy Move Forgery Detection")
 
 menubar=Menu(root)
 filemenu=Menu(menubar,tearoff=0)
