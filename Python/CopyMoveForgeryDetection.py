@@ -10,11 +10,33 @@ from MyFunctions import *
 
 def OpenShowImage():
 	global img,firstimage,first_image_label
-	filename=filedialog.askopenfilename(initialdir = "../Forged Images/",title = "Open file",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
+	filename=filedialog.askopenfilename(initialdir = "../Forged Images/",title = "Open File",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
 	firstimage=PhotoImage(file='{}'.format(filename))
 	first_image_label=Label(leftframe,image=firstimage)
 	first_image_label.pack()
 	img=cv2.imread('{}'.format(filename),0)
+
+def AccuracyTest():
+
+	filename = filedialog.askopenfilename(initialdir = "../Forged Images/",title ="Open File",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
+	img_for_accuracy = cv2.imread('{}'.format(filename),0)
+	dp=0
+	yp=0
+	yn=0
+	for i in range(height):
+		for j in range(width):
+			if(img_for_accuracy[i][j]==0 and img2[i][j] == 255):
+				yp+=1
+			elif(img_for_accuracy[i][j]==255 and img2[i][j] == 255):
+				dp+=1
+			elif(img_for_accuracy[i][j]==255 and img2[i][j] == 0):
+				yn+=1
+
+	precision = dp / (dp + yp)
+	recall = dp / (dp + yn)
+	f1 = 2 * (precision * recall) / (precision + recall)
+	messagebox.showinfo("Accuracy Result",f1)
+
 
 def GetQuantizationMatrix(size,mainsize):
 	for i in range (0,size):
@@ -74,7 +96,7 @@ threshold_distance_for_similar_blocks=5
 min_count_for_similar_shift_vectors=10
 
 def TryToDetectForgery():
-	global hough_space,result_image,result_image_label
+	global hough_space,img2,result_image,result_image_label
 	hough_space=[]
 
 	diagonaled_array.sort(key=itemgetter(0))
@@ -159,26 +181,28 @@ number_of_vector_to_compare_spin_label=Label(middleframe,text="Number of Vector 
 number_of_vector_to_compare_spin_label.pack()
 
 number_of_vector_to_compare_spin = Spinbox(middleframe, from_=0, to=100,width=5,command=GetNumberOfVectorToCompare)
-number_of_vector_to_compare_spin.pack(anchor=CENTER)
+number_of_vector_to_compare_spin.pack(anchor=CENTER,pady=5)
 
 maximum_Euclidean_distance_spin_label=Label(middleframe,text="Maximum Euclidean Distance")
-maximum_Euclidean_distance_spin_label.pack()
+maximum_Euclidean_distance_spin_label.pack(pady=5)
 
 maximum_Euclidean_distance_spin = Spinbox(middleframe, from_=0, to=100,width=5,format="%.2f",increment=0.1,command=GetMaxEuclideanDistance)
 maximum_Euclidean_distance_spin.pack(anchor=CENTER)
 
 threshold_distance_for_similar_blocks_label=Label(middleframe,text="Threshold Distance for Similar Blocks")
-threshold_distance_for_similar_blocks_label.pack()
+threshold_distance_for_similar_blocks_label.pack(pady=5)
 
 threshold_distance_for_similar_blocks_spin = Spinbox(middleframe, from_=5, to=100,width=5,command=GetThresholdDistanceForSimilarBlocks)
-threshold_distance_for_similar_blocks_spin.pack(anchor=CENTER)
+threshold_distance_for_similar_blocks_spin.pack(anchor=CENTER,pady=5)
 
 min_count_for_similar_shift_vectors_label = Label(middleframe,text="Minimum Count for Similar Shift Vectors")
-min_count_for_similar_shift_vectors_label.pack()
+min_count_for_similar_shift_vectors_label.pack(pady=5)
 
 min_count_for_similar_shift_vectors_spin = Spinbox(middleframe, from_=25, to=1000,width=5,command=GetMinCountForSimilarShiftVectors)
-min_count_for_similar_shift_vectors_spin.pack(anchor=CENTER)
+min_count_for_similar_shift_vectors_spin.pack(anchor=CENTER,pady=5)
 
+accuracy_test_button=Button(middleframe,text="Accuracy Test",bg='gray' ,width=15,command=AccuracyTest)
+accuracy_test_button.pack(anchor=CENTER,pady=10)
 
 status=Label(root,text="Copy Move Forgery Detection...",bd=1,relief=SUNKEN)
 status.pack(side=BOTTOM,fill=X)
