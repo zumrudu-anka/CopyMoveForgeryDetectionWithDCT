@@ -6,7 +6,52 @@ import math
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
+from tkinter import ttk
 from MyFunctions import *
+
+Q_90=[
+		[3,2,2,3,5,8,10,12],
+		[2,2,3,4,5,12,12,11],
+		[3,3,3,5,8,11,14,11],
+		[3,3,4,6,10,17,16,12],
+		[4,4,7,11,14,22,21,15],
+		[5,7,11,13,16,12,23,18],
+		[10,13,16,17,21,24,24,21],
+		[14,18,19,20,22,20,20,20]
+	]
+
+Q_50=[
+		[16,11,10,16,24,40,51,61],
+		[12,12,14,19,26,58,60,55],
+		[14,13,16,24,40,57,69,56],
+		[14,17,22,29,51,87,80,62],
+		[18,22,37,56,68,109,103,77],
+		[24,35,55,64,81,104,113,92],
+		[49,64,78,87,103,121,120,101],
+		[72,92,95,98,112,100,103,99]
+	]
+
+Q_10=[
+		[80,60,50,80,120,200,255,255],
+		[55,60,70,95,130,255,255,255],
+		[70,65,80,120,200,255,255,255],
+		[70,85,110,145,255,255,255,255],
+		[90,110,185,255,255,255,255,255],
+		[120,175,255,255,255,255,255,255],
+		[245,255,255,255,255,255,255,255],
+		[255,255,255,255,255,255,255,255]
+	]
+
+Q_CL=[
+		[16,11,10,16,24,40,51,61],
+		[12,12,14,19,26,58,60,55],
+		[14,13,16,24,40,57,69,56],
+		[14,17,22,29,51,87,80,62],
+		[18,22,37,56,68,109,103,77],
+		[24,35,55,64,81,104,113,92],
+		[49,64,78,87,103,121,120,101],
+		[72,92,95,98,112,100,103,99]
+	]
 
 def OpenShowImage():
 	global img,firstimage,first_image_label
@@ -17,7 +62,6 @@ def OpenShowImage():
 	img=cv2.imread('{}'.format(filename),0)
 
 def AccuracyTest():
-
 	filename = filedialog.askopenfilename(initialdir = "../Forged Images/",title ="Open File",filetypes = (("png files","*.png"),("bmp files","*.bmp"),("jpeg files","*.jpg"),("All Files","*.*")))
 	img_for_accuracy = cv2.imread('{}'.format(filename),0)
 	dp=0
@@ -31,12 +75,10 @@ def AccuracyTest():
 				dp+=1
 			elif(img_for_accuracy[i][j]==255 and img2[i][j] == 0):
 				yn+=1
-
 	precision = dp / (dp + yp)
 	recall = dp / (dp + yn)
 	f1 = 2 * (precision * recall) / (precision + recall)
 	messagebox.showinfo("Accuracy Result",f1)
-
 
 def GetQuantizationMatrix(size,mainsize):
 	for i in range (0,size):
@@ -48,48 +90,75 @@ def GetQuantizationMatrix(size,mainsize):
 def MakeDCT():
 	global height,width
 	height, width = img.shape
-
 	vis0=np.zeros((height,width),np.float32)
-
 	vis0[:height,:width]=img
 	global quantization_matrix
 	quantization_matrix=[[] for i in range(0,8)]
-
 	for i in quantization_matrix:
 		for j in range(0,8):
 			i.append(0)
-
 	GetQuantizationMatrix(8,8)
-
 	global diagonaled_array
 	diagonaled_array=[[] for i in range((height-7)*(width-7))]
 	count=0
-
 	for i in range (0,height-7):
 		for j in range(0,width-7):
+			####		Make Quantization With Q_CL Matrix 		  ####
+			if(quantization_matrix_selection_box.get() == "Q_CL"):
+				vis1 = cv2.dct(vis0[i:i+8,j:j+8])
+				for k in range(0,8):
+					for t in range(0,8):
+						vis1[k][t] = GetMinDistValue((vis1[k][t] / Q_CL[k][t]))
+				vis1 = getdiagonalarray(vis1,8,8)
+			
+			####		Make Quantization With Q_90 Matrix 		  ####
+			elif(quantization_matrix_selection_box.get() == "Q_90"):
+				vis1 = cv2.dct(vis0[i:i+8,j:j+8])
+				for k in range(0,8):
+					for t in range(0,8):
+						vis1[k][t] = GetMinDistValue((vis1[k][t] / Q_90[k][t]))
+				vis1 = getdiagonalarray(vis1,8,8)
+			
+			####		Make Quantization With Q_50 Matrix 		  ####
+			elif(quantization_matrix_selection_box.get() == "Q_50"):
+				vis1 = cv2.dct(vis0[i:i+8,j:j+8])
+				for k in range(0,8):
+					for t in range(0,8):
+						vis1[k][t] = GetMinDistValue((vis1[k][t] / Q_50[k][t]))
+				vis1 = getdiagonalarray(vis1,8,8)
 
-			####	Make Quantization With Quantization Matrix    ####
-
-			vis1 = cv2.dct(vis0[i:i+8,j:j+8])
-			for k in range(0,8):
-				for t in range(0,8):
-					vis1[k][t] = GetMinDistValue(vis1[k][t] / quantization_matrix[k][t])
-			vis1 = getdiagonalarray(vis1,8,8)
+			####		Make Quantization With Q_10 Matrix 		  ####
+			elif(quantization_matrix_selection_box.get() == "Q_10"):
+				vis1 = cv2.dct(vis0[i:i+8,j:j+8])
+				for k in range(0,8):
+					for t in range(0,8):
+						vis1[k][t] = GetMinDistValue((vis1[k][t] / Q_10[k][t]))
+				vis1 = getdiagonalarray(vis1,8,8)
+			
+			####		Make Quantization With Divide By 16 		  ####
+			elif(quantization_matrix_selection_box.get() == "Divide by 16"):
+				vis1 = cv2.dct(vis0[i:i+8,j:j+8])
+				for k in range(0,8):
+					for t in range(0,8):
+						vis1[k][t] = GetMinDistValue((vis1[k][t] / 16))
+				vis1 = getdiagonalarray(vis1,8,8)
 
 			##############    Not Make Quantization 	##############
-
+			elif(quantization_matrix_selection_box.get() == "Not Selected"):
+				vis1 = getdiagonalarray(cv2.dct(vis0[i:i+8,j:j+8]), 8, 8)
 			
-			#vis1 = getdiagonalarray(cv2.dct(vis0[i:i+8,j:j+8]), 8, 8)
-
-			########    Make Quantization With Division 16    ########
-
-			#vis1 = [x / 16 for x in vis1]
+			####	Make Quantization With Quantization Matrix    ####
+			elif(quantization_matrix_selection_box.get() == "QTable in Article"):
+				vis1 = cv2.dct(vis0[i:i+8,j:j+8])
+				for k in range(0,8):
+					for t in range(0,8):
+						vis1[k][t] = GetMinDistValue(vis1[k][t] / quantization_matrix[k][t])
+				vis1 = getdiagonalarray(vis1,8,8)
 
 			diagonaled_array[count].append(vis1)
 			diagonaled_array[count].append([i,j])
 			count+=1
 	messagebox.showinfo("Success","DCT Dönüşüm Tamamlandı")
-
 number_of_vector_to_compare=10
 max_euclidean_distance=1.0
 threshold_distance_for_similar_blocks=5
@@ -177,35 +246,42 @@ middleframe.pack(side=LEFT,anchor=CENTER)
 rightframe=Frame(mainframe,width=256,height=256)
 rightframe.pack(side=LEFT,anchor=E,padx=15)
 
+quantization_matrix_selection_box_label=Label(middleframe,text="Select Quantization Matrix")
+quantization_matrix_selection_box_label.pack()
+
+quantization_matrix_selection_box=ttk.Combobox(middleframe,width=15)
+quantization_matrix_selection_box['values'] = ("Not Selected","QTable in Article","Q_CL","Q_90","Q_50","Q_10","Divide by 16")
+quantization_matrix_selection_box.pack(anchor=CENTER,pady=3)
+quantization_matrix_selection_box.current(0)
+
 number_of_vector_to_compare_spin_label=Label(middleframe,text="Number of Vector to Compare")
-number_of_vector_to_compare_spin_label.pack()
+number_of_vector_to_compare_spin_label.pack(pady=3)
 
 number_of_vector_to_compare_spin = Spinbox(middleframe, from_=0, to=100,width=5,command=GetNumberOfVectorToCompare)
-number_of_vector_to_compare_spin.pack(anchor=CENTER,pady=5)
+number_of_vector_to_compare_spin.pack(anchor=CENTER,pady=3)
 
 maximum_Euclidean_distance_spin_label=Label(middleframe,text="Maximum Euclidean Distance")
-maximum_Euclidean_distance_spin_label.pack(pady=5)
+maximum_Euclidean_distance_spin_label.pack(pady=3)
 
 maximum_Euclidean_distance_spin = Spinbox(middleframe, from_=0, to=100,width=5,format="%.2f",increment=0.1,command=GetMaxEuclideanDistance)
 maximum_Euclidean_distance_spin.pack(anchor=CENTER)
 
 threshold_distance_for_similar_blocks_label=Label(middleframe,text="Threshold Distance for Similar Blocks")
-threshold_distance_for_similar_blocks_label.pack(pady=5)
+threshold_distance_for_similar_blocks_label.pack(pady=3)
 
 threshold_distance_for_similar_blocks_spin = Spinbox(middleframe, from_=5, to=100,width=5,command=GetThresholdDistanceForSimilarBlocks)
-threshold_distance_for_similar_blocks_spin.pack(anchor=CENTER,pady=5)
+threshold_distance_for_similar_blocks_spin.pack(anchor=CENTER,pady=3)
 
 min_count_for_similar_shift_vectors_label = Label(middleframe,text="Minimum Count for Similar Shift Vectors")
-min_count_for_similar_shift_vectors_label.pack(pady=5)
+min_count_for_similar_shift_vectors_label.pack(pady=3)
 
 min_count_for_similar_shift_vectors_spin = Spinbox(middleframe, from_=25, to=1000,width=5,command=GetMinCountForSimilarShiftVectors)
-min_count_for_similar_shift_vectors_spin.pack(anchor=CENTER,pady=5)
+min_count_for_similar_shift_vectors_spin.pack(anchor=CENTER,pady=3)
 
 accuracy_test_button=Button(middleframe,text="Accuracy Test",bg='gray' ,width=15,command=AccuracyTest)
-accuracy_test_button.pack(anchor=CENTER,pady=10)
+accuracy_test_button.pack(anchor=CENTER,pady=7)
 
 status=Label(root,text="Copy Move Forgery Detection...",bd=1,relief=SUNKEN)
 status.pack(side=BOTTOM,fill=X)
 
 root.mainloop()
-
