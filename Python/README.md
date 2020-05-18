@@ -15,4 +15,4 @@ Projeyi yerel çalışma alanınıza klonlayın. Projeyi çalıştırmak için g
 
 ### Kullanım
 
-Terminalde `python CopyMoveForgeryDetection.py` komutunu çalıştırın. Terminalin gösterdiği dizin yolunun bu dizin olduğuna emin olun.
+Terminalde `python CopyMoveForgeryDetection.py` komutunu çalıştırın. Terminalin gösterdiği dizin yolunun bu dizin olduğuna emin olun. Örnek kullanım için Guide dizinindeki videoyu izleyebilirsiniz.

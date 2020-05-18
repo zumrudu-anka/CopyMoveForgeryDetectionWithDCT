@@ -15,4 +15,4 @@ To run this project, follow the steps that provide the necessary packages.
 
 ### Usage
 
-Use `python CopyMoveForgeryDetection.py` command on your terminal. Make sure your current terminal directory should be Python that is in the CopyMoveForgeryDetection folder.
+Use `python CopyMoveForgeryDetection.py` command on your terminal. Make sure your current terminal directory should be Python that is in the CopyMoveForgeryDetection folder. For example use, you can watch the video in the Guide directory.
