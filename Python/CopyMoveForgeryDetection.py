@@ -198,7 +198,6 @@ def TryToDetectForgery():
 	result_image_label=Label(rightframe,image=result_image)
 	result_image_label.pack()
 
-
 def GetNumberOfVectorToCompare():
 	global number_of_vector_to_compare
 	number_of_vector_to_compare=int(number_of_vector_to_compare_spin.get())
@@ -281,7 +280,7 @@ min_count_for_similar_shift_vectors_spin.pack(anchor=CENTER,pady=3)
 accuracy_test_button=Button(middleframe,text="Accuracy Test",bg='gray' ,width=15,command=AccuracyTest)
 accuracy_test_button.pack(anchor=CENTER,pady=7)
 
-status=Label(root,text="Copy Move Forgery Detection...",bd=1,relief=SUNKEN)
+status=Label(root,text="Made By zumrudu-anka",bd=1,relief=SUNKEN)
 status.pack(side=BOTTOM,fill=X)
 
 root.mainloop()

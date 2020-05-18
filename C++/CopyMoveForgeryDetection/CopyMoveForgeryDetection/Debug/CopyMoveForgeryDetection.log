@@ -1,8 +1,1 @@
-﻿  MyForm.cpp
-c:\users\phoenix\desktop\nadsecurity\v2\copymoveforgerydetection\copymoveforgerydetection\myform.h(272): warning C4244: '=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\phoenix\desktop\nadsecurity\v2\copymoveforgerydetection\copymoveforgerydetection\myform.h(552): warning C4244: '=': 'double' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\phoenix\desktop\nadsecurity\v2\copymoveforgerydetection\copymoveforgerydetection\myform.h(624): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\phoenix\desktop\nadsecurity\v2\copymoveforgerydetection\copymoveforgerydetection\myform.h(625): warning C4244: '+=': 'float' - 'BYTE' dönüşümü; veri kaybı olabilir
-c:\users\phoenix\desktop\nadsecurity\v2\copymoveforgerydetection\copymoveforgerydetection\myform.h(586): warning C4715: 'CopyMoveForgeryDetection::MyForm::DiagonalOrder': tüm denetim yolları değer döndürmez
-  Blocks.obj : MSIL modülü ile karşılaşıldı; MSIL için artımlı bağlama devre dışı bırakıldı; tam bağlantı gerçekleştiriliyor
-  CopyMoveForgeryDetection.vcxproj -> C:\Users\pHoEniX\Desktop\NADSecurity\v2\CopyMoveForgeryDetection\Debug\CopyMoveForgeryDetection.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1177,5): error MSB3644: The reference assemblies for .NETFramework,Version=v4.6.1 were not found. To resolve this, install the Developer Pack (SDK/Targeting Pack) for this framework version or retarget your application. You can download .NET Framework Developer Packs at https://aka.ms/msbuild/developerpacks
